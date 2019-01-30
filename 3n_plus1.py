@@ -7,38 +7,30 @@ def collatz(n, i):
     return (3*n+1)/2, i+2
 
 
-def thing(n):
+def hailstone_length(n):
     og_n = n
     i = 0
     while n != 1:
         if n in prev:
             ans = i + prev[n]
-            # prev[og_n] = ans
+            prev[og_n] = ans
             return ans + 1
         n, i = collatz(n, i)
     prev[og_n] = i
     return i + 1
 
 
-def brute(n):
-    i = 1
-    while n != 1:
-        n, i = collatz(n, i)
-    return i
+def largest_hailstone(start, end):
+    return max(map(hailstone_length, range(start, end+1)))
 
 
-def things_between(start, end):
-    return max(map(thing, range(start, end+1)))
-
-
-# print(thing(11000000))
-# print(thing(22))
-# print(thing(100))
-# print(thing(2))
-
-# print(brute(22))
-# print(brute(100))
-print(things_between(16, 100))  # 119
-# print(things_between(1, 1000000))  # 1, 1000000 = 525
-for i in prev.items():
-    print(i)
+if __name__ == '__main__':
+    import sys
+    try:
+        start = sys.stdin.readline()
+        end = sys.stdin.readline()
+        start, end = int(start), int(end)
+    except TypeError as e:
+        print(e)
+        sys.exit()
+    print(largest_hailstone(start, end))
