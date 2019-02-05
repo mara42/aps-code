@@ -3,35 +3,34 @@ from itertools import zip_longest
 
 
 def first_try_carry_over(a, b):
+    total_carries = 0
     carry_over = 0
-    temp = 0
-    for x, y in zip_longest(a, b, fillvalue=0):
-        if temp + x + y >= 10:
-            carry_over += 1
-            temp = 1
+    for a_i, b_i in zip_longest(a, b, fillvalue=0):
+        if carry_over + a_i + b_i >= 10:
+            total_carries += 1
+            carry_over = 1
         else:
-            temp = 0
-    return carry_over
+            carry_over = 0
+    return total_carries
 
 
 if __name__ == '__main__':
     import sys
     tuples = []
     for line in sys.stdin:
-        line = line.rstrip()
-        if line == "0 0":
+        if line == "0 0\n":
             break
         else:
-            tupl = line.split(' ')
+            tupl = line.rstrip().split(' ')
         tuples.append(tupl)
     for a, b in tuples:
         try:
-            b = [int(y) for y in reversed(b)]
+            b = [int(y) for y in reversed(b)]  # iterators rock
             a = [int(x) for x in reversed(a)]
         except TypeError as e:
             print(e)
             sys.exit()
-        res = first_try_carry_over(a, b)
-        if res == 0:
-            res = 'No'
-        print(f'{res} carry operations.')
+        carries = first_try_carry_over(a, b)
+        if carries == 0:
+            carries = 'No'
+        print('{} carry operations.'.format(carries))
