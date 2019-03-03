@@ -1,13 +1,14 @@
-def count_turtle_sort_steps(not_sorted, is_sorted, length):
-    i = j = length - 1
-    shifted = 0
-    while j >= 0:
-        if is_sorted[i] == not_sorted[j]:
-            i, j = i-1, j-1
+def count_turtle_sort_steps(not_sorted, is_sorted, turtle_count):
+    # find how many turtles don't need to be moved, return the difference
+    expected_turtle = actual_turtle = turtle_count - 1
+    need_to_move = 0
+    while actual_turtle >= 0:
+        if is_sorted[expected_turtle] == not_sorted[actual_turtle]:
+            expected_turtle, actual_turtle = expected_turtle-1, actual_turtle-1
         else:
-            shifted += 1
-            j = j-1
-    return shifted
+            actual_turtle = actual_turtle-1
+            need_to_move += 1
+    return need_to_move
 
 
 if __name__ == '__main__':
